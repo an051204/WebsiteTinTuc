@@ -1,0 +1,36 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Composer dependencies
+/vendor/
+
+# Runtime logs and temp files
+/logs/
+*.log
+*.tmp
+*.temp
+
+# User uploaded/generated files
+/public/uploads/
+
+# Local docs/rules not for remote repository
+/rule/
+
+# Common PHP cache/runtime artifacts
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/storage/
+/cache/
+/tmp/
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+.DS_Store
+Thumbs.db
+desktop.ini
