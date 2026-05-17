@@ -220,10 +220,16 @@ class TrangCaNhanController extends Controller
         // Update database
         $userId = $_SESSION['user_id'];
         $avatarUrl = '/WebsiteTinTuc/public/uploads/' . $filename;
+        $oldAvatarUrl = $_SESSION['avatar'] ?? '';
         
         $model = new TrangCaNhanModel();
         if ($model->capNhatAvatar($userId, $avatarUrl)) {
             $_SESSION['avatar'] = $avatarUrl;
+
+            if (!empty($oldAvatarUrl) && $oldAvatarUrl !== $avatarUrl) {
+                $this->xoaFileLocalTuUrl($oldAvatarUrl);
+            }
+
             http_response_code(200);
             echo json_encode([
                 'success' => true,
@@ -251,6 +257,33 @@ class TrangCaNhanController extends Controller
             UPLOAD_ERR_EXTENSION => 'Một extension PHP đã dừng việc tải file',
         ];
         return $errors[$errorCode] ?? 'Lỗi không xác định';
+    }
+
+    private function xoaFileLocalTuUrl(?string $url): void
+    {
+        if (empty($url)) {
+            return;
+        }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        if (!$path) {
+            return;
+        }
+
+        $isLocalUpload = strpos($path, '/WebsiteTinTuc/public/uploads/') !== false || strpos($path, '/uploads/') !== false;
+        if (!$isLocalUpload) {
+            return;
+        }
+
+        $fileName = basename($path);
+        if (empty($fileName)) {
+            return;
+        }
+
+        $filePath = dirname(__DIR__, 3) . '/public/uploads/' . $fileName;
+        if (is_file($filePath)) {
+            @unlink($filePath);
+        }
     }
 }
 

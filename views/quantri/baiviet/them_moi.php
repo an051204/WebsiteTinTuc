@@ -219,6 +219,36 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+/* Figure / figcaption styles for inline image captions in editor */
+.editor-figure {
+    display: block;
+    margin: 12px 0;
+    text-align: center;
+}
+
+.editor-figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.editor-figcaption {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+    outline: none;
+    min-height: 18px;
+}
+
+.editor-figcaption:empty:before {
+    content: attr(data-placeholder);
+    color: #999;
+}
+
 /* Allow interaction with modals */
 .note-modal-backdrop.note-processing {
     z-index: 99998 !important;
@@ -484,12 +514,47 @@ $(document).ready(function() {
                     var response_obj = typeof response === 'string' ? JSON.parse(response) :
                         response;
                     if (response_obj.success && response_obj.url) {
-                        $('#content').summernote('insertImage', response_obj.url, 'alt text');
+                        // Insert a figure with editable figcaption so the editor can add a caption
+                        var figureHtml = '<figure class="editor-figure">' +
+                            '<img src="' + response_obj.url + '" alt="">' +
+                            '<figcaption contenteditable="true" class="editor-figcaption" data-placeholder="Nhập chú thích..."></figcaption>' +
+                            '</figure>';
+
+                        try {
+                            $('#content').summernote('pasteHTML', figureHtml);
+
+                            // Focus the newly inserted figcaption and place caret at the end
+                            setTimeout(function() {
+                                var $editable = $('.note-editable');
+                                var $figcap = $editable.find('figure.editor-figure').last()
+                                    .find('.editor-figcaption');
+                                if ($figcap.length) {
+                                    var el = $figcap.get(0);
+                                    el.focus();
+                                    try {
+                                        var range = document.createRange();
+                                        range.selectNodeContents(el);
+                                        range.collapse(false);
+                                        var sel = window.getSelection();
+                                        sel.removeAllRanges();
+                                        sel.addRange(range);
+                                    } catch (e) {
+                                        // ignore selection errors
+                                    }
+                                }
+                            }, 120);
+
+                        } catch (e) {
+                            // fallback to default insertImage if pasteHTML fails
+                            console.warn('pasteHTML failed, falling back to insertImage', e);
+                            $('#content').summernote('insertImage', response_obj.url, '');
+                        }
+
                         // Immediately close any open dialogs after successful insert
                         setTimeout(function() {
                             $('.note-dialog').remove();
                             $('.note-modal-backdrop').remove();
-                        }, 100);
+                        }, 150);
                     } else {
                         alert('Lỗi: ' + (response_obj.error || 'Không thể tải ảnh'));
                         // Close modal on error
@@ -639,7 +704,7 @@ $(document).ready(function() {
             e.preventDefault();
             alert(
                 'Ảnh đại diện chưa được tải lên. Vui lòng đợi hoặc bấm "Tải lên" trước khi đăng bài.'
-                );
+            );
             return false;
         }
 
@@ -666,7 +731,8 @@ $(document).ready(function() {
         var modalObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(m) {
                 m.addedNodes.forEach(function(node) {
-                    if (node && node.nodeType === 1 && node.classList && node.classList.contains('note-modal-backdrop')) {
+                    if (node && node.nodeType === 1 && node.classList && node.classList
+                        .contains('note-modal-backdrop')) {
                         // if no dialog present shortly after backdrop added, remove it
                         setTimeout(function() {
                             if ($('.note-dialog').length === 0) {
@@ -678,7 +744,10 @@ $(document).ready(function() {
             });
         });
 
-        modalObserver.observe(document.body, { childList: true, subtree: false });
+        modalObserver.observe(document.body, {
+            childList: true,
+            subtree: false
+        });
     } catch (e) {
         console.warn('Modal observer not available:', e);
     }
@@ -692,7 +761,9 @@ $(document).ready(function() {
             // ensure existing dialogs are focused and above header
             $('.note-dialog').each(function() {
                 $(this).css('z-index', 100001);
-                try { $(this).attr('tabindex', -1).focus(); } catch (e) {}
+                try {
+                    $(this).attr('tabindex', -1).focus();
+                } catch (e) {}
             });
         }, 100);
     });

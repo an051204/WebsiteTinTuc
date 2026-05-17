@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 17, 2026 lúc 10:45 AM
+-- Thời gian đã tạo: Th5 17, 2026 lúc 11:37 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.1.25
 
@@ -83,18 +83,20 @@ CREATE TABLE `articles` (
 
 INSERT INTO `articles` (`id`, `author_id`, `category_id`, `title`, `slug`, `summary`, `content`, `thumbnail`, `meta_title`, `meta_description`, `status`, `is_featured`, `views_count`, `shares_count`, `comments_count`, `published_at`, `created_at`, `updated_at`) VALUES
 (3, 9, 2, 'Chỉ số lạm phát tháng 5 ghi nhận mức tăng 2.3% so với cùng kỳ năm ngoái', 'chi-so-lam-phat-thang-5', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'published', 0, 429, 0, 3, '2026-05-11 18:53:05', '2026-05-11 16:53:05', '2026-05-12 11:30:49'),
-(4, 10, 2, 'Các ngân hàng lớn công bố kết quả kinh doanh quý II vượt kỳ vọng', 'cac-ngan-hang-lon-cong-bo-ket-qua-q2', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'published', 0, 467, 0, 2, '2026-05-11 18:53:05', '2026-05-11 16:53:05', '2026-05-12 11:31:28'),
+(4, 10, 2, 'Các ngân hàng lớn công bố kết quả kinh doanh quý II vượt kỳ vọng', 'cac-ngan-hang-lon-cong-bo-ket-qua-q2', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'published', 0, 468, 0, 2, '2026-05-11 18:53:05', '2026-05-11 16:53:05', '2026-05-17 09:33:04'),
 (5, 10, 6, 'Thị trường bất động sản khôi phục sau 6 tháng căng thẳng', 'thi-truong-bat-dong-san-khoi-phuc', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'published', 0, 96, 0, 5, '2026-05-11 18:53:05', '2026-05-11 16:53:05', '2026-05-11 16:53:05'),
 (11, 9, 7, 'Đội bóng quốc gia giành chiến thắng 3-1 trong trận giao hữu tại nước ngoài', 'doi-bong-quoc-gia-chien-thang-3-1', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'published', 0, 343, 0, 5, '2026-05-11 18:53:05', '2026-05-11 16:53:05', '2026-05-11 16:53:05'),
 (15, 10, 2, '[NHÁP] Xu hướng mới trong ngành công nghiệp tài chính', 'xu-huong-moi-tai-chinh', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'draft', 0, 0, 0, 0, NULL, '2026-05-11 16:53:05', '2026-05-11 16:53:05'),
 (19, 9, 1, 'Test Cron Article', 'cron-test-6a020e3a51853', NULL, 'This article will auto-publish in 2 minutes', NULL, NULL, NULL, 'published', 0, 2, 0, 0, '2026-05-12 00:15:30', '2026-05-11 17:13:30', '2026-05-14 17:44:38'),
 (20, 9, 1, 'Past Cron Test', 'past-cron-6a020e5703735', NULL, 'Published 5 minutes ago', NULL, NULL, NULL, 'published', 0, 0, 0, 0, '2026-05-12 00:08:59', '2026-05-11 17:13:59', '2026-05-11 17:14:07'),
 (23, 9, 13, 'Tét tét tét tét', 'tt-tt-tt-tt', 'Tét', '<p>Tét tét tét tét tét tét</p>', '', NULL, NULL, 'published', 1, 7, 0, 1, NULL, '2026-05-12 03:01:42', '2026-05-17 07:51:19'),
-(24, 9, 16, 'TÉT ẢNH', 'tt-nh', 'QWQEQE', '<p>ÁDASDSADSADASDASDASDSADs<img src=\"/WebsiteTinTuc/public/uploads/article_1778578886_a34a90a5.png\" style=\"width: 871px;\" data-filename=\"alt text\"></p>', '/WebsiteTinTuc/public/uploads/article_1778578893_9b912c16.png', NULL, NULL, 'published', 0, 3, 0, 0, NULL, '2026-05-12 09:41:39', '2026-05-14 17:39:54'),
+(24, 9, 16, 'TÉT ẢNH', 'tt-nh', 'QWQEQE', '<p>ÁDASDSADSADASDASDASDSADs<img src=\"/WebsiteTinTuc/public/uploads/article_1778578886_a34a90a5.png\" style=\"width: 871px;\" data-filename=\"alt text\"></p>', '/WebsiteTinTuc/public/uploads/article_1778578893_9b912c16.png', NULL, NULL, 'published', 0, 4, 0, 0, NULL, '2026-05-12 09:41:39', '2026-05-17 08:59:43'),
 (25, 11, 2, 'Bài viết test từ user thường', 'bi-vit-test-t-user-thng', '', 'Đây là bài viết test từ một user thường trên website tin tức. Bài viết này được tạo để kiểm tra tính năng cho phép user đăng bài viết mới với trạng thái chờ duyệt.', '', NULL, NULL, 'pending', 0, 0, 0, 0, NULL, '2026-05-13 07:42:28', '2026-05-13 07:42:28'),
 (26, 10, 16, 'QWRQWRWQRQW', 'qwrqwrwqrqw', 'ADSADASD', '<p>SAFSAFASFSFSAFASFS<img src=\"/WebsiteTinTuc/public/uploads/article_1778660642_ea669d94.png\" style=\"width: 878.4px;\" data-filename=\"alt text\"></p>', '', NULL, NULL, 'published', 0, 2, 0, 0, NULL, '2026-05-13 08:24:19', '2026-05-14 17:44:18'),
 (27, 11, 16, 'EWEWEW', 'ewewew', 'EWEWEWEWEW', '<p>asdasdsadasdsaddddddddddddddddd<img src=\"/WebsiteTinTuc/public/uploads/article_1778680405_a67b949c.png\" style=\"width: 871px;\" data-filename=\"alt text\"><br></p>', '', NULL, NULL, 'published', 0, 3, 0, 0, NULL, '2026-05-13 13:53:49', '2026-05-14 17:44:19'),
-(28, 11, 16, 'QWQWQWQWQ', 'qwqwqwqwq', 'ƯQWQWQWQWQW', '<p>ƯQWQWQWQWQWQWQWQWQWQ<img src=\"/WebsiteTinTuc/public/uploads/article_1778680830_4955424b.png\" style=\"width: 871px;\" data-filename=\"alt text\"></p>', '', NULL, NULL, 'pending', 0, 0, 0, 0, NULL, '2026-05-13 14:00:36', '2026-05-13 14:00:36');
+(28, 11, 16, 'QWQWQWQWQ', 'qwqwqwqwq', 'ƯQWQWQWQWQW', '<p>ƯQWQWQWQWQWQWQWQWQWQ<img src=\"/WebsiteTinTuc/public/uploads/article_1778680830_4955424b.png\" style=\"width: 871px;\" data-filename=\"alt text\"></p>', '', NULL, NULL, 'pending', 0, 0, 0, 0, NULL, '2026-05-13 14:00:36', '2026-05-13 14:00:36'),
+(30, 9, 16, 'Chu thich anh', 'chu-thich-anh', 'ASDSADSADSADADSDSADD', '<p><figure class=\"editor-figure\"><img src=\"/WebsiteTinTuc/public/uploads/article_1779008414_edb2279f.jpg\" alt=\"\"><figcaption contenteditable=\"true\" class=\"editor-figcaption\" data-placeholder=\"Nhập chú thích...\">Anh chill chill</figcaption></figure></p><p>ASDDDDDDDDDDDDDDDDDDD</p>', '/WebsiteTinTuc/public/uploads/article_1779008456_e315b34c.jpg', NULL, NULL, 'published', 1, 1, 0, 0, NULL, '2026-05-17 09:01:18', '2026-05-17 09:01:41'),
+(31, 9, 16, 'TEST CHU THICH 2', 'test-chu-thich-2', 'ADASDSADASDASDSADASDSADSDSA', '<p>ASDASDSADSADSADSADASDSADDSADADSD<br><figure class=\"editor-figure\"><img src=\"/WebsiteTinTuc/public/uploads/article_1779010043_40644035.jpg\" alt=\"\"><figcaption contenteditable=\"true\" class=\"editor-figcaption\" data-placeholder=\"Nhập chú thích...\">AAAA</figcaption></figure><br></p>', '/WebsiteTinTuc/public/uploads/article_1779010053_1e19db7d.jpg', NULL, NULL, 'published', 0, 1, 0, 0, NULL, '2026-05-17 09:27:39', '2026-05-17 09:27:47');
 
 -- --------------------------------------------------------
 
@@ -184,7 +186,9 @@ INSERT INTO `article_tag` (`article_id`, `tag_id`) VALUES
 (27, 3),
 (27, 11),
 (28, 3),
-(28, 11);
+(28, 11),
+(30, 11),
+(31, 11);
 
 -- --------------------------------------------------------
 
@@ -416,7 +420,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `full_name`, `email`, `password_hash`, `avatar`, `status`, `reset_password_token`, `reset_token_expire`, `created_at`, `updated_at`) VALUES
-(9, 1, 'Test Admin', 'admin.test@example.com', '$2y$10$RkVKsDNInhCYqBCu6vepyuh3r3DU8BgVdljD5VsFw/iQLB8qEXYrK', '/WebsiteTinTuc/public/uploads/avatar_9_1779007334.jpg', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-17 08:42:14'),
+(9, 1, 'Test Admin', 'admin.test@example.com', '$2y$10$RkVKsDNInhCYqBCu6vepyuh3r3DU8BgVdljD5VsFw/iQLB8qEXYrK', '/WebsiteTinTuc/public/uploads/avatar_9_1779010363.jpg', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-17 09:32:43'),
 (10, 2, 'Test Editor', 'editor.test@example.com', '$2y$10$Il6qCf.tuOavIm7l6lVLDu1cdZdGKHQBssP2vqU03FWlr/Vmf6One', '/WebsiteTinTuc/public/uploads/avatar_10_1778660099.png', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-13 08:14:59'),
 (11, 3, 'Test User', 'user.test@example.com', '$2y$10$cE5APbSAQzPV/vSfb3OXjel9UhQmPDx8KIAE9W5TNj1doNJQN7bJe', '/WebsiteTinTuc/public/uploads/avatar_11_1778658683.png', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-13 07:51:23');
 
@@ -528,7 +532,7 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT cho bảng `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `bad_words`

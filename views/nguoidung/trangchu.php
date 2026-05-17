@@ -82,13 +82,12 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
     </div>
     <?php endif; ?>
 
-    <?php if ($showLatest || $showMostViewed): ?>
+    <?php if ($showLatest && !empty($tinMoiNhat)): ?>
     <div class="section-head">
-        <h2 class="section-head__title">Bản tin hôm nay</h2>
+        <h2 class="section-head__title">🆕 Tin Mới Nhất</h2>
         <span class="chip">Cập nhật liên tục</span>
     </div>
     <div class="article-grid">
-        <?php if ($showLatest && !empty($tinMoiNhat)): ?>
         <?php foreach ($tinMoiNhat as $tin): ?>
         <article class="article-card">
             <div class="article-img">
@@ -115,9 +114,15 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
             </div>
         </article>
         <?php endforeach; ?>
-        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 
-        <?php if ($showMostViewed && !empty($tinXemNhieu)): ?>
+    <?php if ($showMostViewed && !empty($tinXemNhieu)): ?>
+    <div class="section-head">
+        <h2 class="section-head__title">📈 Xem Nhiều Nhất</h2>
+        <span class="chip">Theo lượt đọc</span>
+    </div>
+    <div class="article-grid">
         <?php foreach ($tinXemNhieu as $tin): ?>
         <article class="article-card">
             <div class="article-img">
@@ -144,7 +149,6 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
             </div>
         </article>
         <?php endforeach; ?>
-        <?php endif; ?>
     </div>
     <?php endif; ?>
 
