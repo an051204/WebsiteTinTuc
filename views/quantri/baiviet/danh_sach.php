@@ -214,6 +214,19 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
         color: white;
     }
 
+    .approve-btn {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .approve-btn:hover {
+        background-color: #218838;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+
     .pagination {
         display: flex;
         justify-content: center;
@@ -356,6 +369,13 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
                             <td><?php echo htmlspecialchars($article['views_count'] ?? 0); ?></td>
                             <td>
                                 <div class="actions">
+                                    <?php if ($article['status'] === 'pending'): ?>
+                                        <form method="POST" action="<?php echo $basePath; ?>/quan-tri/bai-viet/cap-nhat-trang-thai/" style="display: inline;">
+                                            <input type="hidden" name="article_id" value="<?php echo $article['id']; ?>">
+                                            <input type="hidden" name="status" value="published">
+                                            <button type="submit" class="action-btn approve-btn" onclick="return confirm('Duyệt bài viết này?');">✓ Duyệt</button>
+                                        </form>
+                                    <?php endif; ?>
                                     <a href="<?php echo $basePath; ?>/quan-tri/bai-viet/sua/<?php echo $article['id']; ?>/" class="action-btn edit-btn">Sửa</a>
                                     <form method="POST" action="<?php echo $basePath; ?>/quan-tri/bai-viet/xoa/" style="display: inline;">
                                         <input type="hidden" name="article_id" value="<?php echo $article['id']; ?>">

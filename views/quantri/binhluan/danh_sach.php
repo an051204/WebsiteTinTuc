@@ -174,12 +174,13 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
         background: white;
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
+        overflow-x: auto;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
+        font-size: 13px;
     }
 
     thead {
@@ -188,10 +189,17 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
     }
 
     th {
-        padding: 15px;
+        padding: 8px 10px;
         text-align: left;
         font-weight: 600;
         color: #333;
+        white-space: nowrap;
+        border-right: 1px solid #dee2e6;
+        font-size: 12px;
+    }
+
+    th:last-child {
+        border-right: none;
     }
 
     tbody tr {
@@ -204,7 +212,8 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
     }
 
     td {
-        padding: 15px;
+        padding: 8px 10px;
+        vertical-align: middle;
     }
 
     .status-badge {
@@ -237,19 +246,23 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
 
     .actions {
         display: flex;
-        gap: 8px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
     }
 
     .btn-small {
-        padding: 6px 12px;
+        padding: 4px 8px;
         border: none;
-        border-radius: 4px;
+        border-radius: 3px;
         cursor: pointer;
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 600;
         text-decoration: none;
         display: inline-block;
         transition: background-color 0.2s;
+        white-space: nowrap;
     }
 
     .btn-approve {
@@ -289,9 +302,31 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
     }
 
     .content-preview {
-        max-width: 400px;
+        max-width: 180px;
         white-space: normal;
         word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    /* Sticky action column on right */
+    td:last-child,
+    th:last-child {
+        position: sticky;
+        right: 0;
+        z-index: 5;
+        background: white;
+    }
+
+    thead th:last-child {
+        background-color: #f8f9fa;
+    }
+
+    tbody tr:hover td:last-child {
+        background-color: #f8f9fa;
     }
 
     .pagination {
@@ -432,35 +467,33 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">ID</th>
-                        <th>Người Dùng</th>
-                        <th>Email</th>
-                        <th style="width: 30%;">Nội Dung</th>
-                        <th>Bài Viết</th>
-                        <th>Trạng Thái</th>
-                        <th>Ngày</th>
-                        <th style="width: 200px;">Hành Động</th>
+                        <th style="width: 35px;">ID</th>
+                        <th style="width: 100px;">Người Dùng</th>
+                        <th style="width: 180px;">Nội Dung</th>
+                        <th style="width: 100px;">Bài Viết</th>
+                        <th style="width: 70px;">Trạng Thái</th>
+                        <th style="width: 85px;">Ngày</th>
+                        <th style="width: 280px;">Hành Động</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($comments as $comment): ?>
                         <tr>
                             <td><?php echo $comment['id']; ?></td>
-                            <td><?php echo htmlspecialchars($comment['full_name'] ?? 'N/A'); ?></td>
-                            <td><?php echo htmlspecialchars($comment['email'] ?? 'N/A'); ?></td>
+                            <td><?php echo htmlspecialchars(substr($comment['full_name'] ?? 'N/A', 0, 18)); ?></td>
                             <td>
                                 <div class="content-preview">
-                                    <?php echo htmlspecialchars(substr($comment['content'], 0, 80)); ?>
-                                    <?php if (strlen($comment['content']) > 80): ?>...<?php endif; ?>
+                                    <?php echo htmlspecialchars(substr($comment['content'], 0, 60)); ?>
+                                    <?php if (strlen($comment['content']) > 60): ?>...<?php endif; ?>
                                 </div>
                             </td>
                             <td>
-                                <a href="<?php echo $basePath; ?>/<?php echo htmlspecialchars($comment['slug']); ?>/" style="color: #667eea; text-decoration: none;">
-                                    <?php echo htmlspecialchars(substr($comment['article_title'], 0, 30)); ?>
+                                <a href="<?php echo $basePath; ?>/<?php echo htmlspecialchars($comment['slug']); ?>/" style="color: #667eea; text-decoration: none; font-size: 12px;">
+                                    <?php echo htmlspecialchars(substr($comment['article_title'], 0, 23)); ?>
                                 </a>
                             </td>
                             <td>
-                                <span class="status-badge status-<?php echo $comment['status']; ?>">
+                                <span class="status-badge status-<?php echo $comment['status']; ?>" style="font-size: 11px;">
                                     <?php 
                                         $statusText = [
                                             'approved' => 'Duyệt',
@@ -472,22 +505,22 @@ include dirname(__FILE__) . '/../layouts/header-admin.php';
                                     ?>
                                 </span>
                             </td>
-                            <td><?php echo date('d/m/Y H:i', strtotime($comment['created_at'])); ?></td>
+                            <td><span style="font-size: 11px;"><?php echo date('d/m H:i', strtotime($comment['created_at'])); ?></span></td>
                             <td>
                                 <div class="actions">
                                     <?php if ($comment['status'] !== 'approved'): ?>
-                                        <button class="btn-small btn-approve" onclick="updateStatus(<?php echo $comment['id']; ?>, 'approved')">✓ Duyệt</button>
+                                        <button class="btn-small btn-approve" onclick="updateStatus(<?php echo $comment['id']; ?>, 'approved')" title="Duyệt">✓ D</button>
                                     <?php endif; ?>
 
                                     <?php if ($comment['status'] !== 'hidden'): ?>
-                                        <button class="btn-small btn-hide" onclick="updateStatus(<?php echo $comment['id']; ?>, 'hidden')">👁 Ẩn</button>
+                                        <button class="btn-small btn-hide" onclick="updateStatus(<?php echo $comment['id']; ?>, 'hidden')" title="Ẩn">👁 Ẩn</button>
                                     <?php endif; ?>
 
                                     <?php if ($comment['status'] !== 'spam'): ?>
-                                        <button class="btn-small btn-spam" onclick="updateStatus(<?php echo $comment['id']; ?>, 'spam')">⚠ Spam</button>
+                                        <button class="btn-small btn-spam" onclick="updateStatus(<?php echo $comment['id']; ?>, 'spam')" title="Spam">⚠ S</button>
                                     <?php endif; ?>
 
-                                    <button class="btn-small btn-delete" onclick="deleteComment(<?php echo $comment['id']; ?>)">🗑 Xóa</button>
+                                    <button class="btn-small btn-delete" onclick="deleteComment(<?php echo $comment['id']; ?>)" title="Xóa">🗑 X</button>
                                 </div>
                             </td>
                         </tr>

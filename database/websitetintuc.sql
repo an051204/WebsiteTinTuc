@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 15, 2026 lúc 05:21 PM
+-- Thời gian đã tạo: Th5 17, 2026 lúc 10:45 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.1.25
 
@@ -89,7 +89,7 @@ INSERT INTO `articles` (`id`, `author_id`, `category_id`, `title`, `slug`, `summ
 (15, 10, 2, '[NHÁP] Xu hướng mới trong ngành công nghiệp tài chính', 'xu-huong-moi-tai-chinh', NULL, '<p>Đây là nội dung chi tiết của bài viết. Bài viết chứa các thông tin quan trọng và hữu ích cho độc giả.</p><p>Chúng tôi cam kết cung cấp thông tin chính xác, cập nhật và có giá trị để phục vụ nhu cầu của bạn.</p><p>Hãy tiếp tục theo dõi để cập nhật thông tin mới nhất!</p>', NULL, NULL, NULL, 'draft', 0, 0, 0, 0, NULL, '2026-05-11 16:53:05', '2026-05-11 16:53:05'),
 (19, 9, 1, 'Test Cron Article', 'cron-test-6a020e3a51853', NULL, 'This article will auto-publish in 2 minutes', NULL, NULL, NULL, 'published', 0, 2, 0, 0, '2026-05-12 00:15:30', '2026-05-11 17:13:30', '2026-05-14 17:44:38'),
 (20, 9, 1, 'Past Cron Test', 'past-cron-6a020e5703735', NULL, 'Published 5 minutes ago', NULL, NULL, NULL, 'published', 0, 0, 0, 0, '2026-05-12 00:08:59', '2026-05-11 17:13:59', '2026-05-11 17:14:07'),
-(23, 9, 13, 'Tét tét tét tét', 'tt-tt-tt-tt', 'Tét', '<p>Tét tét tét tét tét tét</p>', '', NULL, NULL, 'published', 1, 6, 0, 1, NULL, '2026-05-12 03:01:42', '2026-05-15 04:10:50'),
+(23, 9, 13, 'Tét tét tét tét', 'tt-tt-tt-tt', 'Tét', '<p>Tét tét tét tét tét tét</p>', '', NULL, NULL, 'published', 1, 7, 0, 1, NULL, '2026-05-12 03:01:42', '2026-05-17 07:51:19'),
 (24, 9, 16, 'TÉT ẢNH', 'tt-nh', 'QWQEQE', '<p>ÁDASDSADSADASDASDASDSADs<img src=\"/WebsiteTinTuc/public/uploads/article_1778578886_a34a90a5.png\" style=\"width: 871px;\" data-filename=\"alt text\"></p>', '/WebsiteTinTuc/public/uploads/article_1778578893_9b912c16.png', NULL, NULL, 'published', 0, 3, 0, 0, NULL, '2026-05-12 09:41:39', '2026-05-14 17:39:54'),
 (25, 11, 2, 'Bài viết test từ user thường', 'bi-vit-test-t-user-thng', '', 'Đây là bài viết test từ một user thường trên website tin tức. Bài viết này được tạo để kiểm tra tính năng cho phép user đăng bài viết mới với trạng thái chờ duyệt.', '', NULL, NULL, 'pending', 0, 0, 0, 0, NULL, '2026-05-13 07:42:28', '2026-05-13 07:42:28'),
 (26, 10, 16, 'QWRQWRWQRQW', 'qwrqwrwqrqw', 'ADSADASD', '<p>SAFSAFASFSFSAFASFS<img src=\"/WebsiteTinTuc/public/uploads/article_1778660642_ea669d94.png\" style=\"width: 878.4px;\" data-filename=\"alt text\"></p>', '', NULL, NULL, 'published', 0, 2, 0, 0, NULL, '2026-05-13 08:24:19', '2026-05-14 17:44:18'),
@@ -117,6 +117,7 @@ INSERT INTO `article_likes` (`user_id`, `article_id`, `created_at`) VALUES
 (9, 4, '2026-05-11 16:53:05'),
 (9, 5, '2026-05-11 16:53:05'),
 (9, 11, '2026-05-11 16:53:05'),
+(9, 23, '2026-05-17 08:02:58'),
 (10, 3, '2026-05-11 16:53:05'),
 (10, 5, '2026-05-11 16:53:05'),
 (10, 11, '2026-05-11 16:53:05'),
@@ -143,6 +144,7 @@ CREATE TABLE `article_saves` (
 --
 
 INSERT INTO `article_saves` (`user_id`, `article_id`, `created_at`) VALUES
+(9, 23, '2026-05-17 07:58:15'),
 (10, 4, '2026-05-11 16:53:05'),
 (10, 5, '2026-05-11 16:53:05'),
 (11, 3, '2026-05-11 16:53:05'),
@@ -414,7 +416,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `full_name`, `email`, `password_hash`, `avatar`, `status`, `reset_password_token`, `reset_token_expire`, `created_at`, `updated_at`) VALUES
-(9, 1, 'Test Admin', 'admin.test@example.com', '$2y$10$RkVKsDNInhCYqBCu6vepyuh3r3DU8BgVdljD5VsFw/iQLB8qEXYrK', '/WebsiteTinTuc/public/uploads/avatar_9_1778658591.png', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-13 07:49:51'),
+(9, 1, 'Test Admin', 'admin.test@example.com', '$2y$10$RkVKsDNInhCYqBCu6vepyuh3r3DU8BgVdljD5VsFw/iQLB8qEXYrK', '/WebsiteTinTuc/public/uploads/avatar_9_1779007334.jpg', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-17 08:42:14'),
 (10, 2, 'Test Editor', 'editor.test@example.com', '$2y$10$Il6qCf.tuOavIm7l6lVLDu1cdZdGKHQBssP2vqU03FWlr/Vmf6One', '/WebsiteTinTuc/public/uploads/avatar_10_1778660099.png', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-13 08:14:59'),
 (11, 3, 'Test User', 'user.test@example.com', '$2y$10$cE5APbSAQzPV/vSfb3OXjel9UhQmPDx8KIAE9W5TNj1doNJQN7bJe', '/WebsiteTinTuc/public/uploads/avatar_11_1778658683.png', 'active', NULL, NULL, '2026-05-11 04:17:23', '2026-05-13 07:51:23');
 

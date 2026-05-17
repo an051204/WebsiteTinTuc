@@ -18,9 +18,13 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
 <div class="container">
     <div class="profile-container">
         <div class="profile-header">
-            <div class="profile-avatar">
-                <img id="avatarDisplay" src="<?php echo htmlspecialchars($user['avatar'] ?? '/WebsiteTinTuc/public/assests/default-avatar.png'); ?>" alt="Avatar" class="avatar-img" onerror="this.src='/WebsiteTinTuc/public/assests/default-avatar.png'">
-                <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatarFileInput').click()">📷 Thay đổi</button>
+            <div class="profile-avatar" id="profileAvatarBlock" style="position:relative;">
+                <img id="avatarDisplay" src="<?php echo htmlspecialchars($user['avatar'] ?? '/WebsiteTinTuc/public/assests/default-avatar.png'); ?>" alt="Avatar" class="avatar-img" onerror="this.src='/WebsiteTinTuc/public/assests/default-avatar.png'" style="width:120px;height:120px;border-radius:8px;object-fit:cover;">
+                <div class="avatar-overlay" id="avatarOverlay" style="position:absolute;inset:auto 0 8px 0;display:flex;justify-content:center;gap:8px;">
+                    <button type="button" id="avatarChooseBtn" class="avatar-upload-btn">📷 Chọn ảnh</button>
+                    <button type="button" id="avatarSaveBtn" class="avatar-upload-btn" style="display:none;background:#27ae60;color:#fff;">✓ Lưu</button>
+                    <button type="button" id="avatarCancelBtn" class="avatar-upload-btn" style="display:none;background:#e74c3c;color:#fff;">✕ Hủy</button>
+                </div>
             </div>
 
             <div class="profile-info">
@@ -71,7 +75,20 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
                 <div class="avatar-upload-form">
                     <h4>📷 Cập nhật Avatar</h4>
                     <p class="text-muted">Chọn file ảnh (JPEG, PNG, GIF, WebP) tối đa 5MB</p>
-                    <input type="file" id="avatarFileInput" class="avatar-file-input" accept="image/jpeg,image/png,image/gif,image/webp">
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <div style="width:72px;height:72px;border:1px dashed #ddd;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa;">
+                            <img id="avatarPreviewInline" src="<?php echo htmlspecialchars($user['avatar'] ?? '/WebsiteTinTuc/public/assests/default-avatar.png'); ?>" alt="Preview" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='/WebsiteTinTuc/public/assests/default-avatar.png'">
+                        </div>
+                        <div>
+                            <div style="display:flex;gap:8px;margin-bottom:8px;">
+                                <button type="button" id="avatarChooseBtnInline" class="avatar-upload-btn">📁 Chọn ảnh</button>
+                                <button type="button" id="avatarSaveBtnInline" class="avatar-upload-btn" style="display:none;background:#27ae60;color:#fff;">✓ Lưu</button>
+                                <button type="button" id="avatarCancelBtnInline" class="avatar-upload-btn" style="display:none;background:#e74c3c;color:#fff;">✕ Hủy</button>
+                            </div>
+                            <div class="help-text">Bạn có thể chọn ảnh mới và nhấn Lưu để cập nhật avatar.</div>
+                        </div>
+                    </div>
+                    <input type="file" id="avatarFileInput" class="avatar-file-input" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none">
                     <div id="avatarUploadStatus" class="flash-message" hidden></div>
                 </div>
 
@@ -282,42 +299,131 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
 </div>
 
 <script>
-document.getElementById('avatarFileInput')?.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
+(() => {
+    const fileInput = document.getElementById('avatarFileInput');
+    const chooseBtn = document.getElementById('avatarChooseBtn');
+    const chooseBtnInline = document.getElementById('avatarChooseBtnInline');
+    const saveBtn = document.getElementById('avatarSaveBtn');
+    const saveBtnInline = document.getElementById('avatarSaveBtnInline');
+    const cancelBtn = document.getElementById('avatarCancelBtn');
+    const cancelBtnInline = document.getElementById('avatarCancelBtnInline');
+    const avatarImg = document.getElementById('avatarDisplay');
+    const avatarPreviewInline = document.getElementById('avatarPreviewInline');
     const statusDiv = document.getElementById('avatarUploadStatus');
-    statusDiv.hidden = false;
-    statusDiv.className = 'flash-message alert-warning';
-    statusDiv.textContent = '⏳ Đang tải lên...';
 
-    const formData = new FormData();
-    formData.append('avatar', file);
+    let pendingFile = null;
+    let originalSrc = avatarImg.src;
 
-    fetch('<?php echo $basePath; ?>/ca-nhan/upload-avatar/', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            throw new Error(data.error || 'Lỗi tải lên');
+    function resetSelection() {
+        pendingFile = null;
+        if (fileInput) fileInput.value = '';
+        if (saveBtn) saveBtn.style.display = 'none';
+        if (saveBtnInline) saveBtnInline.style.display = 'none';
+        if (cancelBtn) cancelBtn.style.display = 'none';
+        if (cancelBtnInline) cancelBtnInline.style.display = 'none';
+        if (avatarImg) avatarImg.src = originalSrc;
+        if (avatarPreviewInline) avatarPreviewInline.src = originalSrc;
+    }
+
+    if (chooseBtn) {
+        chooseBtn.addEventListener('click', function() { if (fileInput) fileInput.click(); });
+    }
+    if (chooseBtnInline) {
+        chooseBtnInline.addEventListener('click', function() { if (fileInput) fileInput.click(); });
+    }
+
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // validate on client
+        const allowed = ['image/jpeg','image/png','image/gif','image/webp'];
+        if (!allowed.includes(file.type)) {
+            statusDiv.hidden = false;
+            statusDiv.className = 'flash-message alert-error';
+            statusDiv.textContent = '✗ Định dạng không hợp lệ';
+            fileInput.value = '';
+            return;
         }
 
-        statusDiv.className = 'flash-message alert-success';
-        statusDiv.textContent = '✓ ' + data.message;
-        document.getElementById('avatarDisplay').src = data.avatar_url;
-        setTimeout(() => {
+        if (file.size > 5 * 1024 * 1024) {
+            statusDiv.hidden = false;
+            statusDiv.className = 'flash-message alert-error';
+            statusDiv.textContent = '✗ Kích thước quá 5MB';
+            fileInput.value = '';
+            return;
+        }
+
+        // show preview
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            if (avatarImg) avatarImg.src = ev.target.result;
+            if (avatarPreviewInline) avatarPreviewInline.src = ev.target.result;
+            originalSrc = originalSrc || (avatarImg ? avatarImg.src : ev.target.result);
+            if (saveBtn) saveBtn.style.display = 'inline-block';
+            if (saveBtnInline) saveBtnInline.style.display = 'inline-block';
+            if (cancelBtn) cancelBtn.style.display = 'inline-block';
+            if (cancelBtnInline) cancelBtnInline.style.display = 'inline-block';
             statusDiv.hidden = true;
-        }, 3000);
-    })
-    .catch(error => {
-        statusDiv.className = 'flash-message alert-error';
-        statusDiv.textContent = '✗ ' + (error.message || 'Lỗi tải lên');
+        };
+        reader.readAsDataURL(file);
+        pendingFile = file;
     });
 
-    e.target.value = '';
-});
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { resetSelection(); });
+    if (cancelBtnInline) cancelBtnInline.addEventListener('click', function() { resetSelection(); });
+
+    function doSave() {
+        if (!pendingFile) return;
+        statusDiv.hidden = false;
+        statusDiv.className = 'flash-message alert-warning';
+        statusDiv.textContent = '⏳ Đang tải lên...';
+
+        const formData = new FormData();
+        formData.append('avatar', pendingFile);
+
+        fetch('<?php echo $basePath; ?>/ca-nhan/upload-avatar/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.error || 'Lỗi tải lên');
+
+            statusDiv.className = 'flash-message alert-success';
+            statusDiv.textContent = '✓ ' + data.message;
+            if (avatarImg) avatarImg.src = data.avatar_url;
+            originalSrc = data.avatar_url;
+            setTimeout(() => { statusDiv.hidden = true; }, 2500);
+            resetSelection();
+        })
+        .catch(err => {
+            statusDiv.className = 'flash-message alert-error';
+            statusDiv.textContent = '✗ ' + (err.message || 'Lỗi tải lên');
+        });
+    }
+
+    if (saveBtn) saveBtn.addEventListener('click', doSave);
+    if (saveBtnInline) saveBtnInline.addEventListener('click', doSave);
+
+    // accessibility: allow keyboard to trigger choose
+    if (chooseBtn) {
+        chooseBtn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (fileInput) fileInput.click();
+            }
+        });
+    }
+    if (chooseBtnInline) {
+        chooseBtnInline.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (fileInput) fileInput.click();
+            }
+        });
+    }
+})();
 </script>
 
 <?php include dirname(__FILE__) . '/../layouts/footer.php'; ?>

@@ -91,6 +91,15 @@ class TinTucController extends Controller
                 $tuongTacModel->thichBaiViet($articleId, $userId);
                 header("Location: /WebsiteTinTuc/public/tin-tuc/{$slug}");
                 exit;
+            } elseif (isset($_POST['action']) && $_POST['action'] === 'save') {
+                $alreadySaved = $tuongTacModel->kiemTraDaLuu($articleId, $userId);
+                if ($tuongTacModel->luuBaiViet($articleId, $userId)) {
+                    $_SESSION['success'] = $alreadySaved ? 'Bỏ lưu thành công' : 'Đã lưu bài viết';
+                } else {
+                    $_SESSION['error'] = 'Lỗi khi lưu bài viết';
+                }
+                header("Location: /WebsiteTinTuc/public/tin-tuc/{$slug}");
+                exit;
             }
         }
 
