@@ -1,16 +1,4 @@
 <?php
-/**
- * Cron Job: Tự động đăng bài viết theo lịch
- * 
- * Chức năng: Kiểm tra và xuất bản các bài viết có published_at  NOW()
- * Chạy: Mỗi 5 phút từ cron schedule hoặc manual test
- * 
- * Cách dùng:
- *   Tự động Cron: every 5 minutes: php /path/to/scripts/cron_publish_articles.php
- *   Test thủ công: php cron_publish_articles.php --test
- *   Test với debug: php cron_publish_articles.php --test --verbose
- */
-
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';

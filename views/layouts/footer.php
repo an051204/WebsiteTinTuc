@@ -57,6 +57,7 @@
             loadMoreBtn.classList.remove('hide');
             loadMoreBtn.classList.remove('hide-after');
         }
+
     }
 
     function toggleUserDropdown(event) {

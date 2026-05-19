@@ -619,11 +619,11 @@ $(document).ready(function() {
                         $('#thumbnail_preview').html('<img src="' + response_obj.url +
                             '" style="max-width: 100%; max-height: 100%; object-fit: cover;">');
                     } else {
-                        alert('❌ Lỗi: ' + (response_obj.error || 'Không thể tải ảnh'));
+                        alert('Lỗi: ' + (response_obj.error || 'Không thể tải ảnh'));
                     }
                 } catch (e) {
                     console.error('Parse error:', e, 'Response:', response);
-                    alert('❌ Lỗi: ' + e.message);
+                    alert('Lỗi: ' + e.message);
                 }
             },
             error: function(xhr, status, error) {

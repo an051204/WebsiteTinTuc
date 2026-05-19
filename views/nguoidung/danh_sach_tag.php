@@ -5,12 +5,30 @@ $tags = $tags ?? [];
 $basePath = '/WebsiteTinTuc/public';
 $pageTitle = 'Danh Sách Thẻ Tag';
 include dirname(__FILE__) . '/../layouts/header-start.php';
+
+$totalArticles = 0;
+foreach ($tags as $t) {
+    $totalArticles += (int)($t['article_count'] ?? 0);
+}
 ?>
 
-<div class="page-hero">
+<div class="page-hero page-hero--catalog">
     <div class="container">
-        <h1>🏷️ Danh Sách Thẻ Tag</h1>
-        <p>Khám phá nhanh các thẻ để tìm nội dung liên quan</p>
+        <span class="hero-eyebrow">Thẻ tag</span>
+        <h1>Danh Sách Thẻ Tag</h1>
+        <p>Khám phá nhanh các thẻ tag để tìm chính xác nội dung bạn đang quan tâm – mỗi thẻ là một góc nhìn mới.</p>
+        <?php if (!empty($tags)): ?>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <strong><?php echo count($tags); ?></strong>
+                <span>Thẻ tag</span>
+            </div>
+            <div class="hero-stat">
+                <strong><?php echo $totalArticles; ?></strong>
+                <span>Bài viết liên kết</span>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -43,7 +61,7 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
         </div>
     <?php else: ?>
         <div class="empty-message">
-            <div class="empty-message-icon">🏷️</div>
+            <div class="empty-message-icon"></div>
             <p>Hiện tại chưa có thẻ tag nào</p>
         </div>
     <?php endif; ?>

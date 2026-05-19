@@ -6,6 +6,7 @@ use App\Core\Session;
 use App\Models\BaiVietModel;
 use App\Models\BinhLuanModel;
 use App\Models\ChuyenMucModel;
+use App\Models\QuangCaoModel;
 use App\Models\TuongTacModel;
 use App\Models\TheTagModel;
 
@@ -26,6 +27,7 @@ class TinTucController extends Controller
         $binhLuanModel = new BinhLuanModel();
         $tuongTacModel = new TuongTacModel();
         $theTagModel = new TheTagModel();
+        $quangCaoModel = new QuangCaoModel();
 
         $baiViet = $baiVietModel->layChiTietBaiVietTheoSlug($slug);
 
@@ -110,7 +112,14 @@ class TinTucController extends Controller
 
         $binhLuanList = $binhLuanModel->layBinhLuanTheoBaiViet($articleId);
         $baiLienQuan = $baiVietModel->layBaiLienQuan($baiViet['category_id'], $articleId);
+        $allTrending = $baiVietModel->layTinXemNhieu(12);
+        $baiXemNhieu = array_filter($allTrending, fn($item) => $item['id'] !== $articleId);
+        $baiXemNhieu = array_slice($baiXemNhieu, 0, 8);
         $tags = $theTagModel->layTagsTheoBaiViet($articleId);
+
+        // Lấy quảng cáo cho trang bài viết
+        $quangCaoSidebar = $quangCaoModel->layQuangCaoTheoViTri('sidebar');
+        $quangCaoArticleBottom = $quangCaoModel->layQuangCaoTheoViTri('article_bottom');
 
         $daThich = false;
         $daLuu = false;
@@ -124,10 +133,13 @@ class TinTucController extends Controller
             'chuyenMuc' => $chuyenMuc,
             'binhLuanList' => $binhLuanList,
             'baiLienQuan' => $baiLienQuan,
+            'baiXemNhieu' => $baiXemNhieu,
             'tags' => $tags,
             'userId' => $userId,
             'daThich' => $daThich,
             'daLuu' => $daLuu,
+            'quangCaoSidebar' => $quangCaoSidebar,
+            'quangCaoArticleBottom' => $quangCaoArticleBottom,
         ];
 
         $this->renderView('nguoidung/chi_tiet', $data);

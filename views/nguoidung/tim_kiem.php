@@ -14,7 +14,7 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
 
 <div class="page-hero">
     <div class="container">
-        <h1>🔍 Kết quả tìm kiếm</h1>
+        <h1>Kết quả tìm kiếm</h1>
         <p><?php echo !empty($keyword) ? 'Từ khóa: ' . htmlspecialchars($keyword) : 'Nhập từ khóa để tìm nội dung bạn quan tâm'; ?></p>
     </div>
 </div>
@@ -49,10 +49,10 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
                                 <?php echo htmlspecialchars(substr(strip_tags($article['content']), 0, 150)); ?>...
                             </p>
                             <div class="article-meta">
-                                <span class="meta-item">📅 <?php echo date('d/m/Y H:i', strtotime($article['created_at'])); ?></span>
-                                <span class="meta-item">✍️ <?php echo htmlspecialchars($article['author_name'] ?? 'Tác giả ẩn danh'); ?></span>
-                                <span class="meta-item">📁 <a href="<?php echo $basePath; ?>/danh-sach/<?php echo htmlspecialchars($article['category_slug']); ?>"><?php echo htmlspecialchars($article['category_name']); ?></a></span>
-                                <span class="meta-item">👁 <?php echo htmlspecialchars($article['views_count']); ?> lượt xem</span>
+                                <span class="meta-item"><?php echo date('d/m/Y H:i', strtotime($article['created_at'])); ?></span>
+                                <span class="meta-item"><?php echo htmlspecialchars($article['author_name'] ?? 'Tác giả ẩn danh'); ?></span>
+                                <span class="meta-item"><a href="<?php echo $basePath; ?>/danh-sach/<?php echo htmlspecialchars($article['category_slug']); ?>"><?php echo htmlspecialchars($article['category_name']); ?></a></span>
+                                <span class="meta-item"><?php echo htmlspecialchars($article['views_count']); ?> lượt xem</span>
                             </div>
                         </div>
                     </div>
@@ -101,13 +101,13 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
             <?php endif; ?>
         <?php else: ?>
             <div class="no-results">
-                <h3>😞 Không tìm thấy kết quả</h3>
+                <h3>Không tìm thấy kết quả</h3>
                 <p>Thử tìm kiếm với từ khóa khác hoặc xem các bài viết trong danh mục.</p>
             </div>
         <?php endif; ?>
     <?php else: ?>
         <div class="no-results">
-            <h3>🔍 Nhập từ khóa để tìm kiếm</h3>
+            <h3>Nhập từ khóa để tìm kiếm</h3>
             <p>Bạn có thể tìm kiếm theo tiêu đề, nội dung hoặc tác giả bài viết.</p>
         </div>
     <?php endif; ?>

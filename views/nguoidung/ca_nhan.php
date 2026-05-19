@@ -103,7 +103,7 @@ include dirname(__FILE__) . '/../layouts/header-start.php';
                         <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">💾 Cập nhật</button>
+                    <button type="submit" class="btn btn-success">💾 Cập nhật</button>
                 </form>
 
             <?php elseif ($tab === 'thich'): ?>
